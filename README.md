@@ -1,6 +1,6 @@
 # Petrobras Anomaly Detection Project
 
-This project is designed to detect and classify undesirable events in offshore oil wells using the **Petrobras 3W dataset**. The solution leverages Python scripts for data exploration, model training, real-time prediction, and workflow automation. The core model used is **XGBoost**, enhanced with **rolling window methods** for preserving temporal integrity.
+The project is designed to detect and classify undesirable events in offshore oil wells using the **Petrobras 3W dataset**. The solution leverages Python scripts for data exploration, model training, real-time prediction, and workflow automation. The core model used is **XGBoost**, enhanced with **rolling window methods** for preserving temporal integrity.
 
 ## **Project Overview**
 
