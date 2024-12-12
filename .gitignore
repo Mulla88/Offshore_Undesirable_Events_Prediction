@@ -1,0 +1,36 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore environment configuration
+.env
+
+# Ignore data files (if not committing directly)
+*.parquet
+data/
+dataset/
+NotUsedCode/
+
+# Ignore MLflow artifacts
+mlruns/
+*.pkl
+
+# Ignore document files
+*.docx
+*.pdf
+*.xlsx
+*.csv
+*.json
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore test file
+test.ipynb
