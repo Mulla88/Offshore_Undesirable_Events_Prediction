@@ -82,7 +82,7 @@ python real_time_prediction.py
 
 This script sends data to the prediction API in real-time, mimicking the flow of sensor data from offshore wells.
 
-## 📈 **Model Performance for Event 2**
+## 📈 **Model Performance**
 
 ### **Metrics**
 
