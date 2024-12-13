@@ -15,11 +15,11 @@ sns.set_theme(style="whitegrid")
 event_files = {
     "Event 1: Abrupt Increase of BSW": "combined_data_event1.parquet",
     "Event 2: Spurious Closure of DHSV": "combined_data_event2.parquet",
-    "Event 5: Severe Slugging": "combined_data_event5.parquet",
-    "Event 6: Flow Instability": "combined_data_event6.parquet",
-    "Event 7: Rapid Productivity Loss": "combined_data_event7.parquet",
-    "Event 8: Quick Restriction in PCK": "combined_data_event8.parquet",
-    "Event 9: Hydrate in Production Line": "combined_data_event9.parquet"
+    "Event 5: Rapid Productivity Loss": "combined_data_event5.parquet",
+    "Event 6: Quick Restriction in PCK": "combined_data_event6.parquet",
+    "Event 7: Scaling in PCK": "combined_data_event7.parquet",
+    "Event 8: Hydrate in Production Line": "combined_data_event8.parquet",
+    "Event 9: Hydrate in Service Line": "combined_data_event9.parquet"
 }
 
 # Sidebar UI elements to select the event and the page type (Main Dashboard or Detailed EDA).
