@@ -37,7 +37,7 @@ st.write("Loading and preparing the data...")
 # Specify columns to exclude from analysis (like identifiers or labels) and
 # define a threshold for considering columns "high-quality" (≥70% filled).
 exclude_columns = ['state', 'label', 'source', 'well_id', 'filename', 'class']
-threshold = 0.7
+threshold = 0.5
 
 # If the user selected "Main Dashboard", display high-level KPIs and basic distributions.
 if page == "Main Dashboard":
@@ -63,6 +63,18 @@ if page == "Main Dashboard":
     st.write("#### Filled Percentage per Column")
     st.bar_chart(filled_percentage)
 
+    # Display a summary of the numeric columns for the entire event.
+    st.write("#### Summary Statistics for Numeric Columns")
+    st.dataframe(df_event.describe())
+
+    # Plot a heatmap to show correlations between numeric columns for the entire event.
+    st.write("#### Correlation Heatmap")
+    numeric_columns = df_event.select_dtypes(include=np.number).columns
+    if len(numeric_columns) > 1:
+        fig, ax = plt.subplots(figsize=(12, 10))
+        sns.heatmap(df_event[numeric_columns].corr(), annot=True, cmap='coolwarm', linewidths=0.5, fmt=".2f", ax=ax)
+        st.pyplot(fig)
+
 # If the user selected "Detailed EDA", provide more in-depth analysis and visualizations at the file level.
 elif page == "Detailed EDA":
     st.header("Detailed EDA")
@@ -85,6 +97,9 @@ elif page == "Detailed EDA":
         duration_minutes = duration / 60
         st.write(f"Class {cls}: {duration_seconds} seconds ({duration_minutes:.2f} minutes)")
 
+    # Display a summary of the numeric columns for the entire event.
+    st.write("#### Summary Statistics for Numeric Columns")
+    st.dataframe(subset.describe())
 
     # Clean up the 'class' column by forward and backward filling missing values.
     # This ensures each row has a 'class' value.
@@ -94,7 +109,23 @@ elif page == "Detailed EDA":
     # excluding certain known non-informative or label-like columns.
     filled_percentage = subset.notna().mean()
     valid_columns = filled_percentage[filled_percentage >= threshold].index.difference(exclude_columns).tolist()
-    st.write(f"High-quality variables (≥70% filled): {valid_columns}")
+    st.write(f"High-quality variables (≥50% filled): {valid_columns}")
+
+    # Plot a heatmap to show correlations between high-quality numeric columns
+    if valid_columns:
+        st.write("### Correlation Heatmap for High-Quality Variables")
+
+        # Calculate the correlation matrix for the selected high-quality variables
+        correlation_matrix = subset[valid_columns].select_dtypes(include=np.number).corr()
+
+        # Plot the heatmap
+        fig, ax = plt.subplots(figsize=(12, 10))
+        sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5, ax=ax)
+        ax.set_title("Correlation Heatmap of High-Quality Variables")
+        st.pyplot(fig)
+    else:
+        st.write("No high-quality variables available for correlation analysis.")
+
 
     # Plot the distribution of 'class' labels for the chosen filename.
     # This provides a sense of how many rows belong to each class.
@@ -116,6 +147,40 @@ elif page == "Detailed EDA":
         ax.set_xlabel("Timestamp")
         ax.set_ylabel(var)
         st.pyplot(fig)
+
+
+    # Plot rolling statistics for each high-quality variable, such as mean and standard deviation,
+    # to provide a sense of how the variable changes over time.
+    # Select rolling window size using a slider
+    window_size = st.slider("Select Rolling Window Size", 5, 240, 60)
+
+    st.write("### Rolling Statistics for High-Quality Variables")
+
+    for var in valid_columns:
+        fig, ax = plt.subplots(figsize=(12, 6))
+        
+        # Group by 'filename' to calculate rolling statistics within each file
+        moving_avg = subset.groupby('filename')[var].transform(lambda x: x.rolling(window=window_size, min_periods=1).mean())
+        moving_diff = subset.groupby('filename')[var].transform(lambda x: x.diff(periods=window_size).fillna(0))
+        
+        # Plot original data
+        ax.plot(subset.index, subset[var], label='Original Data', color='blue', alpha=0.5)
+        
+        # Plot moving average
+        ax.plot(subset.index, moving_avg, label='Moving Average', color='green')
+        
+        # Plot moving difference
+        ax.plot(subset.index, moving_diff, label='Moving Difference', color='red')
+        
+        # Add title and legend
+        ax.set_title(f"Moving Average and Moving Difference for {var}")
+        ax.set_xlabel("Index")
+        ax.set_ylabel(var)
+        ax.legend()
+        
+        # Display the plot in Streamlit
+        st.pyplot(fig)
+
 
     # Provide a dropdown for the user to choose different types of additional graphs to explore:
     # "Histogram by Class" to look at distributions per class, or 

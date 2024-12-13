@@ -86,7 +86,7 @@ for file, class_map in event_files.items():
 
     # Only keep the data starting with event2
 
-    df = df[df['filename'].str.startswith('event6_')]
+    #df = df[df['filename'].str.startswith('event6_')]
 
     print(df.head())
     
