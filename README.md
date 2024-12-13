@@ -18,6 +18,10 @@ The **Petrobras 3W dataset** contains time-series data representing various type
 8. **Hydrate Formation in Production Lines**
 9. **Hydrate Formation in Service Lines**
 
+The **Datasets** can be downloaded from the following link: 
+
+https://drive.google.com/drive/folders/1wUSA42A2zOiZOyyXi2tacnLeRm7Y_Zok?usp=drive_link
+
 ### **Core Components**
 
 The project workflow is managed through several Python scripts:
