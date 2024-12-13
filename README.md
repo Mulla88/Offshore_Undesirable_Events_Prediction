@@ -22,6 +22,11 @@ The **Dataset** can be downloaded from the following link:
 
 https://drive.google.com/drive/folders/1wUSA42A2zOiZOyyXi2tacnLeRm7Y_Zok?usp=drive_link
 
+
+### **Objective**
+
+The goal of this project is to develop a **machine learning model** that accurately detects **offshore well failures** at their **earliest stages**. By leveraging the **Petrobras 3W dataset**, the model aims to identify the **type** and **timing** of potential issues **before they escalate**, enabling **prompt interventions**. This approach minimizes **downtime**, reduces **unplanned maintenance costs**, enhances **operational efficiency**, supports **safer and more sustainable operations**, and facilitates **data-driven decision-making** in the oil and gas industry.
+
 ### **Core Components**
 
 The project workflow is managed through several Python scripts:
